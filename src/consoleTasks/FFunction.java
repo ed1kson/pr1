@@ -1,9 +1,25 @@
-import java.util.Scanner;
-import consoleTasks.*;
+package consoleTasks;
 
-public class App {
-    static Scanner in = new Scanner(System.in);
+public class FFunction implements Evaluatable {
+
+    //variables
+    private double a;
+
+    public FFunction(double a) {
+        this.a = a;
+    }
+
+    public FFunction() {
+        this(1.0);
+    }
+
+    @Override
+    public double evalf(double x) {
+        return Math.exp(-a*x*x)*Math.sin(x);
+    }
+
     public static void main(String[] args) {
+        java.util.Scanner in = new java.util.Scanner(System.in);
         System.out.println("FFuncion class check ");
         FFunction fun = new FFunction();
         System.out.println("Enter beginning: ");
@@ -32,5 +48,14 @@ public class App {
             fun.setA(a);
             System.out.printf("a: %6.4f\tf: %6.4f\n", fun.getA(), fun.evalf(x));
         }
+        in.close(); // Закриваємо сканер після використання
+    }
+
+    public double getA() {
+        return a;
+    }
+
+    public void setA(double a) {
+        this.a = a;
     }
 }
