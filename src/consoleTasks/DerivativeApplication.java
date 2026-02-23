@@ -1,13 +1,26 @@
 package consoleTasks;
 
 import java.io.*;
+import java.util.Scanner;
 
 public class DerivativeApplication {
 
     public static void main(String[] args) throws IOException {
         Evaluatable funcs[] = new Evaluatable[2];
+        FFunction func = new FFunction();
+
+        Scanner in = new Scanner(System.in);
+        System.out.println("Enter the number of points: ");
+        int num = in.nextInt();
+
         funcs[0] = new ListInterpolation();
         funcs[1] = new FileListInterpolation();
+
+        for ( int i = 0; i < num ; i++) {
+            double x = 1.0 + (5.0 - 1.0)*Math.random();
+            ((ListInterpolation)(funcs[0])).addPoint(new Point2D(x, func.evalf(x)));
+        }
+        ((ListInterpolation)(funcs[0])).sort();
 
         try {
             ((FileListInterpolation)funcs[1]).readFromFile("TblFunc.dat");
@@ -16,7 +29,8 @@ public class DerivativeApplication {
             System.exit(-1);
         }
 
-        String fileName = "";
+        String fileName;
+
         for (Evaluatable f: funcs) {
             System.out.println("функція: " + f.getClass().getSimpleName());
             fileName = f.getClass().getSimpleName() + ".dat";
@@ -31,5 +45,7 @@ public class DerivativeApplication {
             System.out.println("\n");
             out.close();
         }
+
+        in.close();
     }
 }
