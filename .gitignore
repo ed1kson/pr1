@@ -2,3 +2,7 @@ README.md
 settings.json
 .vscode/
 bin/
+data.dat
+FileListInterpolation.dat
+ListInterpolation.dat
+TblFunc.dat
