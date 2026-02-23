@@ -54,7 +54,7 @@ public class ListInterpolation extends Interpolator {
         Collections.sort(data);
     }
 
-    //Dodaty perevirku reshty methodiv ta pereviryty yak kilkist tochok vplavaye na rezultaty interpolacii
+    //Додати перевірку решти методів та перевірити як кількість точок впливає на результати інтерполяції
     public static void main(String[] args) {
         ListInterpolation fun = new ListInterpolation();
         int num;
@@ -62,7 +62,7 @@ public class ListInterpolation extends Interpolator {
 
         java.util.Scanner in = new java.util.Scanner(System.in);
         do {
-            System.out.print("Quantitiy of points: ");
+            System.out.print("Кількість точок: ");
             num = in.nextInt();
         } while (num <= 0);
 
@@ -71,24 +71,24 @@ public class ListInterpolation extends Interpolator {
             fun.addPoint(new Point2D(x, Math.sin(x)));
         }
 
-        System.out.println("Interpolatia po " + fun.numPoints() + " tochkam");
+        System.out.println("Інтерполяція по " + fun.numPoints() + " точкам");
 
-        System.out.println("Unsorted data:");
+        System.out.println("Несортований набір: ");
         for (int i = 0; i < fun.numPoints(); i++)
-            System.out.println("Point" + (i+1) + ": " + fun.getPoint(i));
+            System.out.println("Точка " + (i+1) + ": " + fun.getPoint(i));
 
         fun.sort();
-        System.out.println("Sorted data:");
+        System.out.println("Відсортований набір: ");
         for (int i = 0; i < fun.numPoints(); i++)
-            System.out.println("Point" + (i+1) + ": " + fun.getPoint(i));
+            System.out.println("Точка " + (i+1) + ": " + fun.getPoint(i));
 
         System.out.println("Min x: " + fun.getPoint(0).getX());
         System.out.println("Max x: " + fun.getPoint(fun.numPoints()-1).getX());
 
         x = 0.5*(fun.getPoint(0).getX() + fun.getPoint(fun.numPoints()-1).getX());
-        System.out.println("Znachennya interpolatii fun(" + x + ") = " + fun.evalf(x));
-        System.out.println("Tochne znachennya sin(" + x + ") = " + Math.sin(x));
-        System.out.println("Absolutna pomylka: " + Math.abs(fun.evalf(x)-Math.sin(x)));
+        System.out.println("Значення інтерполяції fun(" + x + ") = " + fun.evalf(x));
+        System.out.println("Точне значення sin(" + x + ") = " + Math.sin(x));
+        System.out.println("Абсолютна помилка: " + Math.abs(fun.evalf(x)-Math.sin(x)));
 
         in.close();
     }
