@@ -59,9 +59,8 @@ public class FileListInterpolation extends ListInterpolation {
             System.out.println("Точка " + (i+1) + ": " + fun.getPoint(i));
 
         System.out.println("Мінімальне значення x: " + fun.getPoint(0).getX());
-        System.out.println("Максимальне значення x: " +
+        System.out.println("Максимальне значення x: " + fun.getPoint(fun.numPoints()-1).getX());
 
-        fun.getPoint(fun.numPoints()-1).getX());
         System.out.println("Зберігаємо у файл");
         try {
             fun.writeToFile("data.dat");

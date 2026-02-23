@@ -2,9 +2,9 @@ package consoleTasks;
 import java.util.*;
 
 public class ListInterpolation extends Interpolator {
-    private List<Point2D> data = null;
+    private ArrayList<Point2D> data = null;
     
-    public ListInterpolation(List<Point2D> data) {
+    public ListInterpolation(ArrayList<Point2D> data) {
         this.data = data;
     }
 

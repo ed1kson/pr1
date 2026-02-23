@@ -5,19 +5,19 @@ import java.io.*;
 public class DerivativeApplication {
 
     public static void main(String[] args) throws IOException {
-        Evaluatable functs[] = new Evaluatable[2];
-        functs[0] = new ListInterpolation();
-        functs[1] = new FileListInterpolation();
+        Evaluatable funcs[] = new Evaluatable[2];
+        funcs[0] = new ListInterpolation();
+        funcs[1] = new FileListInterpolation();
 
         try {
-            ((FileListInterpolation)functs[1]).readFromFile("TblFunc.dat");
+            ((FileListInterpolation)funcs[1]).readFromFile("TblFunc.dat");
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(-1);
         }
 
         String fileName = "";
-        for (Evaluatable f: functs) {
+        for (Evaluatable f: funcs) {
             System.out.println("функція: " + f.getClass().getSimpleName());
             fileName = f.getClass().getSimpleName() + ".dat";
             PrintWriter out = new PrintWriter(new FileWriter(fileName));
