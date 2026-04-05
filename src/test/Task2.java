@@ -1,41 +1,66 @@
-package consoleTasks;
+package test;
 
-import java.util.*;
+import consoleTasks.*;
+import java.util.Scanner;
 import java.io.*;
 
-public class FileListInterpolation extends ListInterpolation {
-
-    public FileListInterpolation() {
-        super();
+public class Task2 {
+    public static void main(String[] args) throws IOException {
+        checkWritingReading();
     }
 
-    public void readFromFile(String path) throws IOException {
-        BufferedReader in = new BufferedReader(new FileReader(path));
+    static void finalCheck() throws IOException{
+        Evaluatable funcs[] = new Evaluatable[3];
+        FFunction func = new FFunction();
+        FFunction func1 = new FFunction(1.5);
 
-        String s = in.readLine();
-        clear();
+        Scanner in = new Scanner(System.in);
+        System.out.println("Enter the number of points: ");
+        int num = in.nextInt();
 
-        while ( (s = in.readLine()) != null) {
-            StringTokenizer st = new StringTokenizer(s);
-            double x = Double.parseDouble(st.nextToken());
-            double y = Double.parseDouble(st.nextToken());
-            addPoint(new Point2D(x, y));
+        funcs[0] = new ListInterpolation();
+        funcs[1] = new ListInterpolation();
+        funcs[2] = new ListInterpolation();
+
+        for ( int i = 0; i < num ; i++) {
+            double x = 1.0 + (7.0 - 1.0)*Math.random();
+            ((ListInterpolation)(funcs[0])).addPoint(new Point2D(x, func.evalf(x)));
+            ((ListInterpolation)(funcs[2])).addPoint(new Point2D(x, func1.evalf(x)));
         }
+
+        ((ListInterpolation)(funcs[0])).sort();
+        ((ListInterpolation)(funcs[2])).sort();
+
+        try {
+            ( (ListInterpolation) funcs[1] ).addPoints(FileWiz.readFromCSV("data/TblFunc.csv"));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
+
+        String fileName;
+
+        for (Evaluatable f: funcs) {
+            System.out.println("функція: " + f.getClass().getSimpleName());
+            fileName = f.getClass().getSimpleName() + ".dat";
+            PrintWriter out = new PrintWriter(new FileWriter(fileName));
+            for (double x = 1.5; x <= 6.5; x += 0.05) {
+                System.out.println(("x: " + x + "\tf: " + f.evalf(x) + "\tf': " +
+                 NumMethods.der(x, 1.0e-4, f)));
+                out.printf("%16.6e%16.6e%16.6e\n", x, f.evalf(x), 
+                NumMethods.der(x, 1.0e-4, f));
+            }
+
+            System.out.println("\n");
+            out.close();
+        }
+
         in.close();
+
     }
 
-    public void writeToFile(String path) throws IOException {
-        PrintWriter out = new PrintWriter(new FileWriter(path));
-
-        for (int i = 0; i < numPoints(); i++) {
-            Point2D pt = getPoint(i);
-            out.println(pt.getX() + " " + pt.getY());
-        }
-        out.close();
-    }
-
-    public static void main(String[] args) {
-        FileListInterpolation fun = new FileListInterpolation();
+    static void checkWritingReading() {
+        ListInterpolation fun = new ListInterpolation();
         int num;
         double x;
         java.util.Scanner in = new java.util.Scanner(System.in);
@@ -63,7 +88,7 @@ public class FileListInterpolation extends ListInterpolation {
 
         System.out.println("Зберігаємо у файл");
         try {
-            fun.writeToFile("data/data.dat");
+            FileWiz.writeToCSV("data/data.scv", fun.getPoints());
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(-1);
@@ -72,7 +97,7 @@ public class FileListInterpolation extends ListInterpolation {
         System.out.println("Зчитуємо з файлу");
         fun.clear();
         try {
-            fun.readFromFile("data/data.dat");
+            fun.addPoints(FileWiz.readFromCSV("data/data.scv"));
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(-1);
@@ -95,11 +120,14 @@ public class FileListInterpolation extends ListInterpolation {
         for (x = 1.0; x <= 7.0; x += 0.1) {
             fun.addPoint(new Point2D(x, Math.sin(x)));
         } try {
-            fun.writeToFile("data/TblFunc.dat");
+            FileWiz.writeToCSV("data/TblFunc.scv", fun.getPoints());
         } catch (IOException ex) {
             ex.printStackTrace();
             System.exit(-1);
         }
         in.close();
+
+        System.out.println("Готово!");
+
     }
 }

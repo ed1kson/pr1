@@ -5,7 +5,10 @@ public class ListInterpolation extends Interpolator {
     private ArrayList<Point2D> data = null;
     
     public ListInterpolation(ArrayList<Point2D> data) {
-        this.data = data;
+        this.data = new ArrayList<>();
+        for ( Point2D p : data ) {
+            this.data.add(p.clone());
+        }
     }
 
     public ListInterpolation(Point2D[] data) {
@@ -16,6 +19,12 @@ public class ListInterpolation extends Interpolator {
 
     public ListInterpolation() {
         this.data = new ArrayList<Point2D>();
+    }
+
+    public void addPoints(Collection<Point2D> clctn) {
+        for ( Point2D p : clctn ) {
+            addPoint(p);
+        }
     }
 
     @Override
@@ -41,6 +50,16 @@ public class ListInterpolation extends Interpolator {
     @Override
     public void setPoint(int i, Point2D pt) {
         data.set(i, pt);
+    }
+
+    public ArrayList<Point2D> getPoints() {
+        ArrayList<Point2D> list = new ArrayList<>();
+    
+        for ( Point2D p : data ) {
+            list.add(p.clone());
+        }
+
+        return list;
     }
 
     @Override

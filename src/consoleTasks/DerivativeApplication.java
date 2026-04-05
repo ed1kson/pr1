@@ -28,7 +28,7 @@ public class DerivativeApplication {
         ((ListInterpolation)(funcs[2])).sort();
 
         try {
-            ((FileListInterpolation)funcs[1]).readFromFile("TblFunc.dat");
+            ((FileListInterpolation)funcs[1]).readFromFile("data/TblFunc.dat");
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(-1);

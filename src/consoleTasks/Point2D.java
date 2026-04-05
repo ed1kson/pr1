@@ -61,4 +61,8 @@ public class Point2D extends Point implements Comparable <Point2D> {
 
         in.close();
     }
+
+    public Point2D clone() {
+        return new Point2D(getCoord(1), getCoord(2));
+    }
 }
