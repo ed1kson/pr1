@@ -6,8 +6,9 @@ import java.util.Scanner;
 public class DerivativeApplication {
 
     public static void main(String[] args) throws IOException {
-        Evaluatable funcs[] = new Evaluatable[2];
+        Evaluatable funcs[] = new Evaluatable[3];
         FFunction func = new FFunction();
+        FFunction func1 = new FFunction(1.5);
 
         Scanner in = new Scanner(System.in);
         System.out.println("Enter the number of points: ");
@@ -15,12 +16,16 @@ public class DerivativeApplication {
 
         funcs[0] = new ListInterpolation();
         funcs[1] = new FileListInterpolation();
+        funcs[2] = new ListInterpolation();
 
         for ( int i = 0; i < num ; i++) {
-            double x = 1.0 + (5.0 - 1.0)*Math.random();
+            double x = 1.0 + (7.0 - 1.0)*Math.random();
             ((ListInterpolation)(funcs[0])).addPoint(new Point2D(x, func.evalf(x)));
+            ((ListInterpolation)(funcs[2])).addPoint(new Point2D(x, func1.evalf(x)));
         }
+
         ((ListInterpolation)(funcs[0])).sort();
+        ((ListInterpolation)(funcs[2])).sort();
 
         try {
             ((FileListInterpolation)funcs[1]).readFromFile("TblFunc.dat");
