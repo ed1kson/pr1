@@ -33,25 +33,4 @@ public abstract class Interpolator implements Evaluatable {
         return res;
     }
 
-    public double evalf2(double x) {
-        double res = 0;
-        double numer, denom;
-        int numPoints = numPoints();
-
-        for ( int i = 0 ; i < numPoints ; i++ ) {
-            denom = numer = 1;
-
-            for ( int j = 0 ; j < numPoints ; j++ ) {
-                if ( j != i) { 
-                    numer *= (x - getPoint(j).getX());
-                    denom *= getPoint(i).getX() - getPoint(j).getX(); 
-                }
-            }
-            numer *= getPoint(i).getY();
-
-            res += numer/denom;
-        }
-
-        return res;
-    }
 }
