@@ -35,5 +35,20 @@ public class FileWiz {
         out.close();
     }
 
-    
+    public static void writeInfoToFile(String path, Evaluatable f, double start, double end, double step) {
+        try {
+            PrintWriter out = new PrintWriter(new FileWriter(path));
+            for (double x = start; x <= end; x += step) {
+                out.printf("%16.6e%16.6e%16.6e\n", x, f.evalf(x), 
+                 NumMethods.der(x, 1.0e-4, f));
+
+            }
+
+            System.out.println("\n");
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

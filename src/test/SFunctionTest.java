@@ -1,34 +1,8 @@
-package consoleTasks;
+package test;
 
-import org.matheclipse.core.eval.ExprEvaluator;
-import org.matheclipse.core.interfaces.IExpr;
+import consoleTasks.*;
 
-public class SFunction implements Evaluatable<Double> {
-
-    //variables
-    private double a;
-    private ExprEvaluator evaluator = new ExprEvaluator();
-    private IExpr func = null;
-
-
-    public SFunction(String func, double a) {
-        this.func = evaluator.eval(func);
-        this.a = a;
-    }
-
-    public SFunction(String func) {
-        this(func, 1.0);
-    }
-
-    @Override
-    public double evalf(Double x) {
-        return evaluator.eval(String.format(java.util.Locale.US, "ReplaceAll(%s, {x -> %f, a -> %f})", func, x, a)).toDoubleDefault();
-    }
-
-    public SFunction derive() {
-        return new SFunction(String.format("D(%s, x)", func));
-    }
-
+public class SFunctionTest {
     public static void main(String[] args) {
         java.util.Scanner in = new java.util.Scanner(System.in);
         System.out.println("SFuncion class check ");
@@ -54,18 +28,5 @@ public class SFunction implements Evaluatable<Double> {
         }
 
         in.close();
-    }
-
-    public double getA() {
-        return a;
-    }
-
-    public void setA(double a) {
-        this.a = a;
-    }
-
-    @Override
-    public String toString() {
-        return func.toString();
     }
 }

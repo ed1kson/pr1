@@ -10,14 +10,13 @@ import java.awt.*;
 
 public class App extends JFrame {
     private JTextField funcField, startField, stopField, stepField;
-    private JPanel chartContainer; // Контейнер для графіка
+    private JPanel chartContainer;
 
     public App() {
         setTitle("GUIApplication");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // --- ВЕРХНЯ ПАНЕЛЬ (Ввід функції) ---
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         topPanel.setBorder(BorderFactory.createTitledBorder("Function"));
         topPanel.add(new JLabel("f(x):"));
@@ -27,11 +26,9 @@ public class App extends JFrame {
         topPanel.add(dfLabel);
         add(topPanel, BorderLayout.NORTH);
 
-        // --- ЦЕНТРАЛЬНА ПАНЕЛЬ (Графік) ---
         chartContainer = new JPanel(new BorderLayout());
         add(chartContainer, BorderLayout.CENTER);
 
-        // --- НИЖНЯ ПАНЕЛЬ (Керування) ---
         JPanel bottomPanel = new JPanel(new FlowLayout());
         
         JButton plotBtn = new JButton("Plot");
@@ -52,7 +49,6 @@ public class App extends JFrame {
         
         add(bottomPanel, BorderLayout.SOUTH);
 
-        // --- ЛОГІКА КНОПОК ---
         plotBtn.addActionListener(e -> updateChart(dfLabel));
         exitBtn.addActionListener(e -> System.exit(0));
 
@@ -68,7 +64,6 @@ public class App extends JFrame {
             double stop = Double.parseDouble(stopField.getText());
             double step = Double.parseDouble(stepField.getText());
 
-            // Використовуємо вашу SFunction
             SFunction mainFunc = new SFunction(fStr);
             SFunction derivFunc = mainFunc.derive();
 
@@ -90,7 +85,6 @@ public class App extends JFrame {
                 null, "X", "Y", dataset
             );
 
-            // Оновлюємо інтерфейс
             chartContainer.removeAll();
             chartContainer.add(new ChartPanel(chart), BorderLayout.CENTER);
             chartContainer.validate();

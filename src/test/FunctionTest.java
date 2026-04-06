@@ -1,27 +1,13 @@
-package consoleTasks;
+package test;
 
-public class FFunction implements Evaluatable {
+import consoleTasks.Function;
 
-    //variables
-    private double a;
-
-    public FFunction(double a) {
-        this.a = a;
-    }
-
-    public FFunction() {
-        this(1.0);
-    }
-
-    @Override
-    public double evalf(double x) {
-        return Math.exp(-a*x*x)*Math.sin(x);
-    }
-
+public class FunctionTest {
+    
     public static void main(String[] args) {
         java.util.Scanner in = new java.util.Scanner(System.in);
-        System.out.println("FFuncion class check ");
-        FFunction fun = new FFunction();
+        System.out.println("Function class check ");
+        Function fun = new Function();
         System.out.println("Enter beginning: ");
         double xBeg = in.nextDouble();
         System.out.println("Enter ending: ");
@@ -48,14 +34,6 @@ public class FFunction implements Evaluatable {
             fun.setA(a);
             System.out.printf("a: %6.4f\tf: %6.4f\n", fun.getA(), fun.evalf(x));
         }
-        in.close(); // Закриваємо сканер після використання
-    }
-
-    public double getA() {
-        return a;
-    }
-
-    public void setA(double a) {
-        this.a = a;
+        in.close();
     }
 }

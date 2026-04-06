@@ -1,22 +1,22 @@
-package consoleTasks;
+package test;
 
-import java.io.*;
+import consoleTasks.*;
 import java.util.Scanner;
+import java.io.*;
 
-public class DerivativeApplication {
-
+public class Task1 {
     public static void main(String[] args) throws IOException {
-        Evaluatable<Double> funcs[] = new Evaluatable[3];
+        Evaluatable<?> funcs[] = new Evaluatable[3];
         Function func = new Function();
         Function func1 = new Function(1.5);
 
         Scanner in = new Scanner(System.in);
-        System.out.println("Enter the number of points: ");
+        System.out.println("Кількість точок: ");
         int num = in.nextInt();
 
         funcs[0] = new ListInterpolation();
-        funcs[1] = new FileListInterpolation();
-        funcs[2] = new ListInterpolation();
+        funcs[1] = new ListInterpolation();
+        funcs[2] = new FileListInterpolation();
 
         for ( int i = 0; i < num ; i++) {
             double x = 1.0 + (7.0 - 1.0)*Math.random();
@@ -25,10 +25,10 @@ public class DerivativeApplication {
         }
 
         ((ListInterpolation)(funcs[0])).sort();
-        ((ListInterpolation)(funcs[2])).sort();
+        ((ListInterpolation)(funcs[1])).sort();
 
         try {
-            ((FileListInterpolation)funcs[1]).readFromFile("data/TblFunc.dat");
+            ((FileListInterpolation)funcs[2]).readFromFile("data/TblFunc.dat");
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(-1);
@@ -36,19 +36,22 @@ public class DerivativeApplication {
 
         String fileName;
 
-        for (Evaluatable<Double> f: funcs) {
+        int i = 1;
+        for (Evaluatable f: funcs) {
             System.out.println("функція: " + f.getClass().getSimpleName());
-            fileName = f.getClass().getSimpleName() + ".dat";
+            fileName = "data/" + i + "_" + f.getClass().getSimpleName() + ".dat";
             PrintWriter out = new PrintWriter(new FileWriter(fileName));
             for (double x = 1.5; x <= 6.5; x += 0.05) {
                 System.out.println(("x: " + x + "\tf: " + f.evalf(x) + "\tf': " +
                  NumMethods.der(x, 1.0e-4, f)));
+
                 out.printf("%16.6e%16.6e%16.6e\n", x, f.evalf(x), 
-                NumMethods.der(x, 1.0e-4, f));
+                 NumMethods.der(x, 1.0e-4, f));
             }
 
             System.out.println("\n");
             out.close();
+            i++;
         }
 
         in.close();

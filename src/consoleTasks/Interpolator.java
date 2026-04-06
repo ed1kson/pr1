@@ -1,6 +1,6 @@
 package consoleTasks;
 
-public abstract class Interpolator implements Evaluatable {
+public abstract class Interpolator implements Evaluatable<Double> {
 
     abstract public void clear();
     //returs the number of points in the interpolator
@@ -9,10 +9,9 @@ public abstract class Interpolator implements Evaluatable {
     abstract public Point2D getPoint(int i);
     abstract public void setPoint(int i, Point2D pt);
     abstract public void removeLastPoint();
-    abstract public void sort();
 
     @Override
-    public double evalf(double x) {
+    public double evalf(Double x) {
         double res = 0.0;
         int numData = numPoints();
         double numer, denom;

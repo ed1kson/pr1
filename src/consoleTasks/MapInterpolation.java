@@ -1,7 +1,7 @@
 package consoleTasks;
 import java.util.*;
 
-public class MapInterpolation implements Evaluatable {
+public class MapInterpolation implements Evaluatable<Double> {
     private TreeMap<Double, Double> data = null;
     
     public MapInterpolation(ArrayList<Point2D> data) {
@@ -71,6 +71,18 @@ public class MapInterpolation implements Evaluatable {
     //     if ()
     // }
 
+    public Point2D getFirst() {
+        double x = data.firstKey();
+        double y = data.get(x);
+        return new Point2D(x, y);
+    }
+
+    public Point2D getLast() {
+        double x = data.lastKey();
+        double y = data.get(x);
+        return new Point2D(x, y);
+    }
+
     public ArrayList<Point2D> getPoints() {
         ArrayList<Point2D> list = new ArrayList<>();
     
@@ -87,7 +99,7 @@ public class MapInterpolation implements Evaluatable {
     }
 
     @Override
-    public double evalf(double x) {
+    public double evalf(Double x) {
         double res = 0.0;
 
         for (Map.Entry<Double, Double> cEntry : data.entrySet()) {
@@ -109,41 +121,4 @@ public class MapInterpolation implements Evaluatable {
         return res;
     }
 
-    public static void main(String[] args) {
-        ListInterpolation fun = new ListInterpolation();
-        int num;
-        double x;
-
-        java.util.Scanner in = new java.util.Scanner(System.in);
-        do {
-            System.out.print("Кількість точок: ");
-            num = in.nextInt();
-        } while (num <= 0);
-
-        for (int i = 0; i < num; i++) {
-            x = 1.0 + (5.0 - 1.0)*Math.random();
-            fun.addPoint(new Point2D(x, Math.sin(x)));
-        }
-
-        System.out.println("Інтерполяція по " + fun.numPoints() + " точкам");
-
-        System.out.println("Несортований набір: ");
-        for (int i = 0; i < fun.numPoints(); i++)
-            System.out.println("Точка " + (i+1) + ": " + fun.getPoint(i));
-
-        fun.sort();
-        System.out.println("Відсортований набір: ");
-        for (int i = 0; i < fun.numPoints(); i++)
-            System.out.println("Точка " + (i+1) + ": " + fun.getPoint(i));
-
-        System.out.println("Min x: " + fun.getPoint(0).getX());
-        System.out.println("Max x: " + fun.getPoint(fun.numPoints()-1).getX());
-
-        x = 0.5*(fun.getPoint(0).getX() + fun.getPoint(fun.numPoints()-1).getX());
-        System.out.println("Значення інтерполяції fun(" + x + ") = " + fun.evalf(x));
-        System.out.println("Точне значення sin(" + x + ") = " + Math.sin(x));
-        System.out.println("Абсолютна помилка: " + Math.abs(fun.evalf(x)-Math.sin(x)));
-
-        in.close();
-    }
 }

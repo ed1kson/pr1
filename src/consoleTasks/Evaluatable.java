@@ -1,5 +1,5 @@
 package consoleTasks;
 
-public interface Evaluatable {
-    double evalf(double x);
+public interface Evaluatable <T> {
+    double evalf(T x);
 }

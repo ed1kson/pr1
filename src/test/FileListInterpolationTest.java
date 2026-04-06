@@ -1,66 +1,12 @@
 package test;
 
-import consoleTasks.*;
-import java.util.Scanner;
-import java.io.*;
+import consoleTasks.FileListInterpolation;
+import consoleTasks.Point2D;
+import java.io.IOException;
 
-public class Task2 {
-    public static void main(String[] args) throws IOException {
-        checkWritingReading();
-    }
-
-    static void finalCheck() throws IOException{
-        Evaluatable funcs[] = new Evaluatable[3];
-        FFunction func = new FFunction();
-        FFunction func1 = new FFunction(1.5);
-
-        Scanner in = new Scanner(System.in);
-        System.out.println("Enter the number of points: ");
-        int num = in.nextInt();
-
-        funcs[0] = new ListInterpolation();
-        funcs[1] = new ListInterpolation();
-        funcs[2] = new ListInterpolation();
-
-        for ( int i = 0; i < num ; i++) {
-            double x = 1.0 + (7.0 - 1.0)*Math.random();
-            ((ListInterpolation)(funcs[0])).addPoint(new Point2D(x, func.evalf(x)));
-            ((ListInterpolation)(funcs[2])).addPoint(new Point2D(x, func1.evalf(x)));
-        }
-
-        ((ListInterpolation)(funcs[0])).sort();
-        ((ListInterpolation)(funcs[2])).sort();
-
-        try {
-            ( (ListInterpolation) funcs[1] ).addPoints(FileWiz.readFromCSV("data/TblFunc.csv"));
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(-1);
-        }
-
-        String fileName;
-
-        for (Evaluatable f: funcs) {
-            System.out.println("функція: " + f.getClass().getSimpleName());
-            fileName = f.getClass().getSimpleName() + ".dat";
-            PrintWriter out = new PrintWriter(new FileWriter(fileName));
-            for (double x = 1.5; x <= 6.5; x += 0.05) {
-                System.out.println(("x: " + x + "\tf: " + f.evalf(x) + "\tf': " +
-                 NumMethods.der(x, 1.0e-4, f)));
-                out.printf("%16.6e%16.6e%16.6e\n", x, f.evalf(x), 
-                NumMethods.der(x, 1.0e-4, f));
-            }
-
-            System.out.println("\n");
-            out.close();
-        }
-
-        in.close();
-
-    }
-
-    static void checkWritingReading() {
-        ListInterpolation fun = new ListInterpolation();
+public class FileListInterpolationTest {
+    public static void main(String[] args) {
+        FileListInterpolation fun = new FileListInterpolation();
         int num;
         double x;
         java.util.Scanner in = new java.util.Scanner(System.in);
@@ -88,7 +34,7 @@ public class Task2 {
 
         System.out.println("Зберігаємо у файл");
         try {
-            FileWiz.writeToCSV("data/data.scv", fun.getPoints());
+            fun.writeToFile("data/data.dat");
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(-1);
@@ -97,7 +43,7 @@ public class Task2 {
         System.out.println("Зчитуємо з файлу");
         fun.clear();
         try {
-            fun.addPoints(FileWiz.readFromCSV("data/data.scv"));
+            fun.readFromFile("data/data.dat");
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(-1);
@@ -120,14 +66,13 @@ public class Task2 {
         for (x = 1.0; x <= 7.0; x += 0.1) {
             fun.addPoint(new Point2D(x, Math.sin(x)));
         } try {
-            FileWiz.writeToCSV("data/TblFunc.scv", fun.getPoints());
+            fun.writeToFile("data/TblFunc.dat");
         } catch (IOException ex) {
             ex.printStackTrace();
             System.exit(-1);
         }
         in.close();
 
-        System.out.println("Готово!");
-
+        System.out.println("Дані записано!");
     }
 }

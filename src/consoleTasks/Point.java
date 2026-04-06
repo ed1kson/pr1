@@ -29,5 +29,4 @@ public abstract class Point {
         return sb.toString();
     }
 
-
 }
